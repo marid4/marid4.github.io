@@ -3,649 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetWarga - Aplikasi Tagihan WiFi</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome (Icons) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- React & ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
-    <!-- Babel (untuk JSX) -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
+    <title>AwraNet</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+        /* --- CSS Reset & Dasar --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f9f9f9; }
+        a { text-decoration: none; }
+        ul { list-style: none; }
+        input, select, textarea, button { font-family: inherit; }
+
+        /* --- Utilitas --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .text-center { text-align: center; }
+        .btn { display: inline-block; background-color: #007bff; color: white; padding: 10px 25px; border-radius: 5px; font-weight: bold; transition: background 0.3s; cursor: pointer; border: none; }
+        .btn:hover { background-color: #0056b3; }
+        .section-title { margin-bottom: 40px; font-size: 2rem; color: #2c3e50; text-align: center; }
+
+        /* --- Header --- */
+        header { background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: #007bff; }
+        .nav-links li { display: inline; margin-left: 20px; }
+        .nav-links a { color: #555; font-weight: 500; }
+        .nav-links a:hover { color: #007bff; }
+
+        /* --- Hero --- */
+        .hero { background: linear-gradient(135deg, #007bff 0%, #00d2ff 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 15px; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
+        .hero .btn { background: #fff; color: #007bff; }
+
+        /* --- Pricing --- */
+        .pricing { padding: 60px 0; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-top: 5px solid #007bff; transition: transform 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+        .price { font-size: 2rem; color: #007bff; font-weight: bold; margin: 15px 0; }
+        .price span { font-size: 1rem; color: #777; font-weight: normal; }
+        .features li { margin-bottom: 10px; color: #555; }
+
+        /* --- Form Pendaftaran --- */
+        .registration { background: #fff; padding: 60px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+        .form-box { max-width: 600px; margin: 0 auto; background: #f4f7f6; padding: 30px; border-radius: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #007bff; }
+        
+        /* --- Footer --- */
+        footer { background: #333; color: white; padding: 40px 0; text-align: center; }
+
+        /* --- Mobile --- */
+        @media (max-width: 768px) {
+            nav { flex-direction: column; height: auto; padding: 15px 0; }
+            .nav-links { margin-top: 15px; text-align: center; }
+            .nav-links li { display: block; margin: 10px 0; }
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body>
 
-    <div id="root"></div>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">AWRANEY</div>
+                <ul class="nav-links">
+                    <li><a href="#paket">Paket</a></li>
+                    <li><a href="#daftar">Daftar Sekarang</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    <script type="text/babel" data-type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <section class="hero">
+        <div class="container">
+            <h1>Internet Unlimited 24 Jam</h1>
+            <p>Pasang WiFi hari ini, aktif besok. Tanpa kuota, tanpa ribet.</p>
+            <a href="#paket" class="btn">Lihat Pilihan Paket</a>
+        </div>
+    </section>
 
-        // --- Konfigurasi Firebase ---
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // --- Helper Functions ---
-        const formatRupiah = (number) => {
-            return new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0
-            }).format(number);
-        };
-
-        const getMonthName = (monthIndex) => {
-            const months = [
-                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-            ];
-            return months[monthIndex];
-        };
-
-        const formatPhoneWA = (phone) => {
-            let p = phone.replace(/\D/g, '');
-            if (p.startsWith('0')) {
-                p = '62' + p.substring(1);
-            }
-            return p;
-        };
-
-        // --- Components ---
-
-        // 1. Login Component
-        const Login = ({ onLogin, onGuest }) => {
-            const [password, setPassword] = React.useState('');
-            const [error, setError] = React.useState('');
-
-            const handleLogin = (e) => {
-                e.preventDefault();
-                if (password === 'admin123') {
-                    onLogin();
-                } else {
-                    setError('Password salah!');
-                }
-            };
-
-            return (
-                <div className="min-h-screen bg-gradient-to-br from-blue-600 to-indigo-900 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 transform transition-all">
-                        <div className="text-center mb-8">
-                            <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
-                                <i className="fas fa-wifi text-3xl text-blue-600"></i>
-                            </div>
-                            <h1 className="text-3xl font-bold text-gray-800">NetWarga</h1>
-                            <p className="text-gray-500 mt-2">Manajemen Tagihan Internet</p>
-                        </div>
-
-                        <button 
-                            onClick={onGuest}
-                            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center mb-8 shadow-lg shadow-green-200 group"
-                        >
-                            <i className="fas fa-search mr-2 group-hover:scale-110 transition-transform"></i>
-                            Cek Tagihan (Untuk Pelanggan)
-                        </button>
-
-                        <div className="relative flex py-2 items-center mb-6">
-                            <div className="flex-grow border-t border-gray-300"></div>
-                            <span className="flex-shrink-0 mx-4 text-gray-400 text-xs uppercase tracking-widest">Area Admin</span>
-                            <div className="flex-grow border-t border-gray-300"></div>
-                        </div>
-
-                        <form onSubmit={handleLogin} className="space-y-4">
-                            <div className="relative">
-                                <i className="fas fa-lock absolute left-3 top-3.5 text-gray-400"></i>
-                                <input
-                                    type="password"
-                                    placeholder="Password Admin (Default: admin123)"
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-shadow"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                            </div>
-                            {error && <p className="text-red-500 text-sm text-center bg-red-50 p-2 rounded-lg border border-red-100">{error}</p>}
-                            <button 
-                                type="submit"
-                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition duration-200 shadow-lg shadow-blue-200"
-                            >
-                                Masuk Admin
-                            </button>
-                        </form>
-                    </div>
+    <section id="paket" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Pilihan Paket Internet</h2>
+            <div class="pricing-grid">
+                <div class="card">
+                    <h3>Paket Hemat</h3>
+                    <div class="price">Rp 150.000<span>/bln</span></div>
+                    <ul class="features">
+                        <li>Up to 10 Mbps</li>
+                        <li>Unlimited Kuota</li>
+                        <li>1-3 Device</li>
+                    </ul>
+                    <a href="#daftar" class="btn" onclick="pilihPaket('Paket Hemat')">Pilih Ini</a>
                 </div>
-            );
-        };
-
-        // 2. Admin Dashboard
-        const AdminDashboard = ({ user, onLogout }) => {
-            const [customers, setCustomers] = React.useState([]);
-            const [payments, setPayments] = React.useState([]);
-            const [showAddModal, setShowAddModal] = React.useState(false);
-            const [showPaymentModal, setShowPaymentModal] = React.useState(false);
-            const [selectedCustomer, setSelectedCustomer] = React.useState(null);
-            
-            const [newCustomer, setNewCustomer] = React.useState({ 
-                name: '', phone: '', address: '', packagePrice: 150000, packageName: 'Paket Basic 10Mbps' 
-            });
-            const [searchTerm, setSearchTerm] = React.useState('');
-
-            React.useEffect(() => {
-                if (!user) return;
-
-                const custRef = collection(db, 'artifacts', appId, 'public', 'data', 'customers');
-                const unsubCust = onSnapshot(custRef, (snapshot) => {
-                    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    setCustomers(data);
-                });
-
-                const payRef = collection(db, 'artifacts', appId, 'public', 'data', 'payments');
-                const unsubPay = onSnapshot(payRef, (snapshot) => {
-                    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    data.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-                    setPayments(data);
-                });
-
-                return () => {
-                    unsubCust();
-                    unsubPay();
-                };
-            }, [user]);
-
-            const getStatus = (customerId) => {
-                const now = new Date();
-                const currentMonth = now.getMonth();
-                const currentYear = now.getFullYear();
-
-                const hasPaid = payments.find(p => 
-                    p.customerId === customerId && 
-                    p.month === currentMonth && 
-                    p.year === currentYear
-                );
-                return hasPaid ? 'LUNAS' : 'BELUM';
-            };
-
-            const handleAddCustomer = async (e) => {
-                e.preventDefault();
-                const custId = 'NET' + Math.floor(1000 + Math.random() * 9000);
-                try {
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'customers'), {
-                        ...newCustomer,
-                        customerId: custId,
-                        createdAt: serverTimestamp(),
-                        status: 'active'
-                    });
-                    setShowAddModal(false);
-                    setNewCustomer({ name: '', phone: '', address: '', packagePrice: 150000, packageName: 'Paket Basic 10Mbps' });
-                } catch (err) {
-                    alert("Gagal: " + err.message);
-                }
-            };
-
-            const handleDeleteCustomer = async (id) => {
-                if(confirm("Hapus data pelanggan ini?")) {
-                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'customers', id));
-                }
-            }
-
-            const handleRecordPayment = async () => {
-                if (!selectedCustomer) return;
-                const now = new Date();
-                try {
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'payments'), {
-                        customerId: selectedCustomer.customerId,
-                        customerName: selectedCustomer.name,
-                        amount: selectedCustomer.packagePrice,
-                        month: now.getMonth(),
-                        year: now.getFullYear(),
-                        timestamp: serverTimestamp(),
-                        method: 'Cash/Manual'
-                    });
-                    setShowPaymentModal(false);
-                    setSelectedCustomer(null);
-                } catch (err) {
-                    alert("Gagal mencatat pembayaran");
-                }
-            };
-
-            const sendWhatsApp = (customer) => {
-                const status = getStatus(customer.customerId);
-                const phone = formatPhoneWA(customer.phone);
-                const now = new Date();
-                const monthName = getMonthName(now.getMonth());
-                
-                let text = "";
-                if (status === 'LUNAS') {
-                    text = `Halo kak ${customer.name}, terima kasih! Tagihan internet bulan ${monthName} sebesar ${formatRupiah(customer.packagePrice)} sudah LUNAS.`;
-                } else {
-                    text = `Halo kak ${customer.name}, ini tagihan internet bulan ${monthName} sebesar ${formatRupiah(customer.packagePrice)}. Mohon segera dibayar ya.`;
-                }
-                window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
-            };
-
-            const filteredCustomers = customers.filter(c => 
-                c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                c.customerId.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-
-            return (
-                <div className="min-h-screen bg-gray-50 pb-20">
-                    {/* Navbar */}
-                    <div className="bg-white shadow-md sticky top-0 z-10">
-                        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-                            <h1 className="text-xl font-bold text-blue-800 flex items-center gap-2">
-                                <i className="fas fa-wifi"></i> Admin Panel
-                            </h1>
-                            <button onClick={onLogout} className="text-gray-500 hover:text-red-500 transition-colors">
-                                <i className="fas fa-sign-out-alt text-lg"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="max-w-6xl mx-auto p-4 mt-6">
-                        {/* Stats */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                            <div className="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-500">
-                                <p className="text-xs text-gray-500 font-semibold uppercase">Pelanggan</p>
-                                <p className="text-2xl font-bold mt-1">{customers.length}</p>
-                            </div>
-                            <div className="bg-white p-5 rounded-xl shadow-sm border-l-4 border-green-500">
-                                <p className="text-xs text-gray-500 font-semibold uppercase">Lunas Bulan Ini</p>
-                                <p className="text-2xl font-bold mt-1 text-green-600">
-                                    {customers.filter(c => getStatus(c.customerId) === 'LUNAS').length}
-                                </p>
-                            </div>
-                            <div className="bg-white p-5 rounded-xl shadow-sm border-l-4 border-red-500">
-                                <p className="text-xs text-gray-500 font-semibold uppercase">Belum Bayar</p>
-                                <p className="text-2xl font-bold mt-1 text-red-600">
-                                    {customers.filter(c => getStatus(c.customerId) === 'BELUM').length}
-                                </p>
-                            </div>
-                            <div className="bg-white p-5 rounded-xl shadow-sm border-l-4 border-purple-500">
-                                <p className="text-xs text-gray-500 font-semibold uppercase">Estimasi Omset</p>
-                                <p className="text-lg font-bold mt-1 text-purple-700">
-                                    {formatRupiah(customers.reduce((acc, curr) => acc + parseInt(curr.packagePrice), 0))}
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Controls */}
-                        <div className="flex flex-col md:flex-row gap-4 mb-6">
-                            <div className="relative flex-grow">
-                                <i className="fas fa-search absolute left-3 top-3.5 text-gray-400"></i>
-                                <input 
-                                    type="text" 
-                                    placeholder="Cari Nama / ID..." 
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
-                                    value={searchTerm}
-                                    onChange={e => setSearchTerm(e.target.value)}
-                                />
-                            </div>
-                            <button 
-                                onClick={() => setShowAddModal(true)}
-                                className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold shadow-md hover:bg-blue-700 transition flex items-center justify-center gap-2"
-                            >
-                                <i className="fas fa-plus"></i> Pelanggan Baru
-                            </button>
-                        </div>
-
-                        {/* Table */}
-                        <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left">
-                                    <thead className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wider">
-                                        <tr>
-                                            <th className="px-6 py-4">Data Pelanggan</th>
-                                            <th className="px-6 py-4">Paket</th>
-                                            <th className="px-6 py-4">Status Tagihan</th>
-                                            <th className="px-6 py-4 text-right">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-100">
-                                        {filteredCustomers.map(customer => {
-                                            const status = getStatus(customer.customerId);
-                                            return (
-                                                <tr key={customer.id} className="hover:bg-blue-50 transition-colors">
-                                                    <td className="px-6 py-4">
-                                                        <div>
-                                                            <p className="font-bold text-gray-800">{customer.name}</p>
-                                                            <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-md font-mono mt-1 inline-block">
-                                                                {customer.customerId}
-                                                            </span>
-                                                            <p className="text-xs text-gray-500 mt-1"><i className="fab fa-whatsapp text-green-500"></i> {customer.phone}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        <p className="text-sm font-medium">{customer.packageName}</p>
-                                                        <p className="text-sm text-gray-500">{formatRupiah(customer.packagePrice)}</p>
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        {status === 'LUNAS' ? (
-                                                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
-                                                                <i className="fas fa-check-circle mr-1.5"></i> Lunas
-                                                            </span>
-                                                        ) : (
-                                                            <button 
-                                                                onClick={() => {
-                                                                    setSelectedCustomer(customer);
-                                                                    setShowPaymentModal(true);
-                                                                }}
-                                                                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 hover:bg-red-200 transition cursor-pointer"
-                                                            >
-                                                                <i className="fas fa-times-circle mr-1.5"></i> Bayar
-                                                            </button>
-                                                        )}
-                                                    </td>
-                                                    <td className="px-6 py-4 text-right">
-                                                        <div className="flex items-center justify-end gap-3">
-                                                            <button 
-                                                                onClick={() => sendWhatsApp(customer)}
-                                                                className="text-green-500 hover:text-green-700 transition"
-                                                                title="Kirim Tagihan WA"
-                                                            >
-                                                                <i className="fab fa-whatsapp text-xl"></i>
-                                                            </button>
-                                                            <button 
-                                                                onClick={() => handleDeleteCustomer(customer.id)}
-                                                                className="text-gray-400 hover:text-red-500 transition"
-                                                                title="Hapus"
-                                                            >
-                                                                <i className="fas fa-trash text-lg"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </tbody>
-                                </table>
-                                {filteredCustomers.length === 0 && (
-                                    <div className="p-10 text-center text-gray-400">
-                                        <i className="fas fa-inbox text-4xl mb-3"></i>
-                                        <p>Data tidak ditemukan.</p>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Modals */}
-                    {showAddModal && (
-                        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                            <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl animate-fade-in-up">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h3 className="text-xl font-bold">Tambah Pelanggan</h3>
-                                    <button onClick={() => setShowAddModal(false)} className="text-gray-400 hover:text-gray-600">
-                                        <i className="fas fa-times text-xl"></i>
-                                    </button>
-                                </div>
-                                <form onSubmit={handleAddCustomer} className="space-y-4">
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
-                                        <input required type="text" className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" value={newCustomer.name} onChange={e => setNewCustomer({...newCustomer, name: e.target.value})} />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-1">No. WhatsApp</label>
-                                        <input required type="tel" className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" value={newCustomer.phone} onChange={e => setNewCustomer({...newCustomer, phone: e.target.value})} />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-1">Alamat</label>
-                                        <input required type="text" className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" value={newCustomer.address} onChange={e => setNewCustomer({...newCustomer, address: e.target.value})} />
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-sm font-semibold text-gray-700 mb-1">Nama Paket</label>
-                                            <input required type="text" className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" value={newCustomer.packageName} onChange={e => setNewCustomer({...newCustomer, packageName: e.target.value})} />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-semibold text-gray-700 mb-1">Harga (Rp)</label>
-                                            <input required type="number" className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" value={newCustomer.packagePrice} onChange={e => setNewCustomer({...newCustomer, packagePrice: parseInt(e.target.value)})} />
-                                        </div>
-                                    </div>
-                                    <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold mt-4 shadow-lg shadow-blue-200">
-                                        Simpan Data
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    )}
-
-                    {showPaymentModal && selectedCustomer && (
-                        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-                            <div className="bg-white rounded-2xl w-full max-w-sm p-8 text-center shadow-2xl">
-                                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                    <i className="fas fa-money-bill-wave text-2xl text-green-600"></i>
-                                </div>
-                                <h3 className="text-xl font-bold mb-2">Konfirmasi Bayar?</h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed">
-                                    Terima uang tunai dari <br/><strong>{selectedCustomer.name}</strong><br/>
-                                    sebesar <strong className="text-green-600 text-lg">{formatRupiah(selectedCustomer.packagePrice)}</strong>?
-                                </p>
-                                <div className="flex gap-3">
-                                    <button onClick={() => setShowPaymentModal(false)} className="flex-1 py-3 border border-gray-300 rounded-xl font-semibold text-gray-600 hover:bg-gray-50">Batal</button>
-                                    <button onClick={handleRecordPayment} className="flex-1 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold shadow-lg shadow-green-200">Ya, Terima</button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                <div class="card">
+                    <h3>Paket Keluarga</h3>
+                    <div class="price">Rp 250.000<span>/bln</span></div>
+                    <ul class="features">
+                        <li>Up to 30 Mbps</li>
+                        <li>Unlimited Kuota</li>
+                        <li>4-7 Device</li>
+                    </ul>
+                    <a href="#daftar" class="btn" onclick="pilihPaket('Paket Keluarga')">Pilih Ini</a>
                 </div>
-            );
-        };
-
-        // 3. User Portal
-        const UserPortal = ({ user, onBack }) => {
-            const [custIdInput, setCustIdInput] = React.useState('');
-            const [customerData, setCustomerData] = React.useState(null);
-            const [paymentHistory, setPaymentHistory] = React.useState([]);
-            const [loading, setLoading] = React.useState(false);
-            const [error, setError] = React.useState('');
-
-            const handleCheck = async (e) => {
-                e.preventDefault();
-                setLoading(true);
-                setError('');
-                setCustomerData(null);
-
-                const custRef = collection(db, 'artifacts', appId, 'public', 'data', 'customers');
-                onSnapshot(custRef, (snapshot) => {
-                    const found = snapshot.docs.find(doc => doc.data().customerId === custIdInput.trim().toUpperCase());
-                    
-                    if (found) {
-                        setCustomerData({ id: found.id, ...found.data() });
-                        fetchHistory(found.data().customerId);
-                    } else {
-                        setError('ID tidak ditemukan.');
-                        setLoading(false);
-                    }
-                });
-            };
-
-            const fetchHistory = (cId) => {
-                const payRef = collection(db, 'artifacts', appId, 'public', 'data', 'payments');
-                onSnapshot(payRef, (snapshot) => {
-                    const history = snapshot.docs
-                        .map(doc => doc.data())
-                        .filter(p => p.customerId === cId)
-                        .sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-                    setPaymentHistory(history);
-                    setLoading(false);
-                });
-            };
-
-            const getStatusThisMonth = () => {
-                if (!customerData) return false;
-                const now = new Date();
-                return paymentHistory.some(p => p.month === now.getMonth() && p.year === now.getFullYear());
-            };
-
-            return (
-                <div className="min-h-screen bg-gray-50 flex flex-col">
-                    <div className="bg-blue-600 text-white p-6 pb-12 rounded-b-[2.5rem] shadow-xl relative">
-                        <button onClick={onBack} className="absolute top-6 left-4 bg-white/20 p-2 rounded-full hover:bg-white/30 transition">
-                            <i className="fas fa-arrow-left text-white"></i>
-                        </button>
-                        <div className="text-center mt-4">
-                            <div className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                                <i className="fas fa-search text-white text-lg"></i>
-                            </div>
-                            <h1 className="text-2xl font-bold">Cek Tagihan</h1>
-                            <p className="text-blue-100 text-sm opacity-90">Masukkan ID Pelanggan Anda</p>
-                        </div>
-                    </div>
-
-                    <div className="flex-grow px-6 -mt-8">
-                        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
-                            <form onSubmit={handleCheck} className="flex gap-2">
-                                <input 
-                                    type="text" 
-                                    placeholder="Contoh: NET1234" 
-                                    className="flex-grow uppercase border-2 border-gray-100 bg-gray-50 rounded-xl px-4 py-3 font-bold text-gray-700 focus:border-blue-500 focus:bg-white focus:outline-none transition-all"
-                                    value={custIdInput}
-                                    onChange={e => setCustIdInput(e.target.value)}
-                                />
-                                <button 
-                                    disabled={loading}
-                                    type="submit" 
-                                    className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl w-14 flex items-center justify-center font-bold disabled:opacity-50 transition shadow-lg shadow-blue-200"
-                                >
-                                    {loading ? <i className="fas fa-spinner fa-spin"></i> : <i className="fas fa-arrow-right"></i>}
-                                </button>
-                            </form>
-                            {error && <div className="mt-3 text-red-500 text-sm text-center bg-red-50 p-2 rounded-lg border border-red-100 flex items-center justify-center gap-2"><i className="fas fa-exclamation-circle"></i> {error}</div>}
-                        </div>
-
-                        {customerData && (
-                            <div className="space-y-6 animate-fade-in-up">
-                                {/* Status Card */}
-                                <div className={`rounded-3xl p-6 text-white shadow-xl relative overflow-hidden ${getStatusThisMonth() ? 'bg-gradient-to-br from-green-500 to-emerald-700' : 'bg-gradient-to-br from-red-500 to-rose-700'}`}>
-                                    
-                                    <div className="relative z-10 flex justify-between items-start mb-6">
-                                        <div>
-                                            <p className="text-white/80 text-sm font-medium mb-1">Status Bulan {getMonthName(new Date().getMonth())}</p>
-                                            <h2 className="text-4xl font-extrabold tracking-tight">{getStatusThisMonth() ? 'LUNAS' : 'BELUM'}</h2>
-                                        </div>
-                                        <div className="bg-white/20 p-3 rounded-full backdrop-blur-md">
-                                            {getStatusThisMonth() ? <i className="fas fa-check text-2xl"></i> : <i className="fas fa-times text-2xl"></i>}
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="bg-white/10 rounded-xl p-4 backdrop-blur-md border border-white/10">
-                                        <div className="flex justify-between text-sm mb-2 pb-2 border-b border-white/10">
-                                            <span className="opacity-80">Paket Internet</span>
-                                            <span className="font-bold">{customerData.packageName}</span>
-                                        </div>
-                                        <div className="flex justify-between text-sm items-center">
-                                            <span className="opacity-80">Total Tagihan</span>
-                                            <span className="font-bold text-xl">{formatRupiah(customerData.packagePrice)}</span>
-                                        </div>
-                                    </div>
-                                    
-                                    {!getStatusThisMonth() && (
-                                        <div className="mt-4 flex items-start gap-3 text-sm bg-black/20 p-3 rounded-lg">
-                                            <i className="fas fa-info-circle mt-0.5"></i>
-                                            <p className="opacity-90 leading-tight">Mohon segera lakukan pembayaran ke loket admin atau transfer ke rekening yang tersedia.</p>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Profile Info */}
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                                    <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2 text-lg">
-                                        <i className="fas fa-id-card text-blue-500"></i> Data Pelanggan
-                                    </h3>
-                                    <div className="space-y-3 text-sm">
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-500">Nama</span>
-                                            <span className="font-semibold text-gray-900">{customerData.name}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-500">ID Pelanggan</span>
-                                            <span className="font-mono bg-gray-100 px-2 rounded text-gray-700">{customerData.customerId}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-500">Alamat</span>
-                                            <span className="font-semibold text-gray-900 text-right max-w-[60%]">{customerData.address}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* History */}
-                                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8">
-                                    <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2 text-lg">
-                                        <i className="fas fa-history text-purple-500"></i> Riwayat Bayar
-                                    </h3>
-                                    <div className="space-y-3">
-                                        {paymentHistory.length > 0 ? paymentHistory.map((pay, idx) => (
-                                            <div key={idx} className="flex items-center justify-between bg-gray-50 p-3 rounded-xl border border-gray-100">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="bg-green-100 w-10 h-10 rounded-full flex items-center justify-center text-green-600">
-                                                        <i className="fas fa-receipt"></i>
-                                                    </div>
-                                                    <div>
-                                                        <p className="font-bold text-gray-800 text-sm">{getMonthName(pay.month)} {pay.year}</p>
-                                                        <p className="text-xs text-gray-500">{new Date(pay.timestamp?.seconds * 1000).toLocaleDateString('id-ID')}</p>
-                                                    </div>
-                                                </div>
-                                                <span className="font-bold text-gray-700 text-sm">{formatRupiah(pay.amount)}</span>
-                                            </div>
-                                        )) : (
-                                            <div className="text-center py-6 text-gray-400 bg-gray-50 rounded-xl border border-dashed border-gray-200">
-                                                <p>Belum ada riwayat.</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                <div class="card">
+                    <h3>Paket Gamer</h3>
+                    <div class="price">Rp 450.000<span>/bln</span></div>
+                    <ul class="features">
+                        <li>Up to 100 Mbps</li>
+                        <li>Low Latency</li>
+                        <li>Heavy User</li>
+                    </ul>
+                    <a href="#daftar" class="btn" onclick="pilihPaket('Paket Gamer')">Pilih Ini</a>
                 </div>
-            );
-        };
+            </div>
+        </div>
+    </section>
 
-        // 4. Main App Container
-        const App = () => {
-            const [user, setUser] = React.useState(null);
-            const [view, setView] = React.useState('login');
+    <section id="daftar" class="registration">
+        <div class="container">
+            <h2 class="section-title">Formulir Pendaftaran</h2>
+            <div class="form-box">
+                <form id="wifiForm" onsubmit="kirimKeWA(event)">
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="nama" required placeholder="Contoh: Budi Santoso">
+                    </div>
+                    <div class="form-group">
+                        <label>Nomor WhatsApp</label>
+                        <input type="tel" id="nomor" required placeholder="Contoh: 08123456789">
+                    </div>
+                    <div class="form-group">
+                        <label>Pilihan Paket</label>
+                        <select id="paketSelect">
+                            <option value="Paket Hemat">Paket Hemat (10 Mbps)</option>
+                            <option value="Paket Keluarga">Paket Keluarga (30 Mbps)</option>
+                            <option value="Paket Gamer">Paket Gamer (100 Mbps)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Pemasangan Lengkap</label>
+                        <textarea id="alamat" rows="3" required placeholder="Nama Jalan, RT/RW, Nomor Rumah, Kelurahan..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Jadwal Survei/Pasang (Opsional)</label>
+                        <input type="date" id="tanggal">
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Kirim Pendaftaran via WhatsApp</button>
+                </form>
+            </div>
+        </div>
+    </section>
 
-            React.useEffect(() => {
-                const initAuth = async () => {
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        try {
-                            await signInWithCustomToken(auth, __initial_auth_token);
-                        } catch(e) { console.error("Auth error", e)}
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                };
-                initAuth();
-                return onAuthStateChanged(auth, (u) => setUser(u));
-            }, []);
+    <footer id="kontak">
+        <div class="container">
+            <p>SpeedNet WiFi &copy; 2023</p>
+            <p>Butuh bantuan? WA: 0812-3456-7890</p>
+        </div>
+    </footer>
 
-            if (view === 'login') return <Login onLogin={() => setView('admin')} onGuest={() => setView('user-check')} />;
-            if (view === 'admin') return <AdminDashboard user={user} onLogout={() => setView('login')} />;
-            if (view === 'user-check') return <UserPortal user={user} onBack={() => setView('login')} />;
+    <script>
+        // Fungsi untuk auto-select paket saat tombol di tabel harga diklik
+        function pilihPaket(namaPaket) {
+            document.getElementById('paketSelect').value = namaPaket;
+        }
 
-            return <div className="h-screen flex items-center justify-center text-gray-400"><i className="fas fa-circle-notch fa-spin text-3xl"></i></div>;
-        };
+        // Fungsi mengirim data form ke WhatsApp
+        function kirimKeWA(e) {
+            e.preventDefault(); // Mencegah reload halaman
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+            // 1. GANTI NOMOR WA DISINI (Format 628...)
+            const nomorAdmin = "6285183113336"; 
+
+            // 2. Ambil data dari form
+            const nama = document.getElementById('nama').value;
+            const nomor = document.getElementById('nomor').value;
+            const paket = document.getElementById('paketSelect').value;
+            const alamat = document.getElementById('alamat').value;
+            const tanggal = document.getElementById('tanggal').value;
+
+            // 3. Buat template pesan
+            const pesan = `Halo Admin, saya ingin daftar pasang WiFi.%0A%0A` +
+                          `DATA DIRI:%0A` +
+                          `- Nama: ${nama}%0A` +
+                          `- No HP: ${nomor}%0A` +
+                          `- Paket: ${paket}%0A` +
+                          `- Alamat: ${alamat}%0A` +
+                          `- Rencana Tanggal: ${tanggal}%0A%0A` +
+                          `Mohon info ketersediaan jaringan. Terima kasih.`;
+
+            // 4. Buka WhatsApp
+            const url = `https://wa.me/${nomorAdmin}?text=${pesan}`;
+            window.open(url, '_blank');
+        }
     </script>
+
 </body>
 </html>
