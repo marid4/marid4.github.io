@@ -1,0 +1,38 @@
+===Database db_wifi
+
+== Table structure for table pelanggan
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int(11)|No|
+|nama|varchar(100)|Yes|NULL
+|no_hp|varchar(20)|Yes|NULL
+|alamat|text|Yes|NULL
+== Dumping data for table pelanggan
+
+|1|Apri|628111723629|mekar sicalung rt 02/13
+|2|Arfarah|6285727023756|Mekar sicalung rt 02/13
+|3|Fei/Eha|628996068870|Mekar sicalung rt 02/13
+|4|Lela|62895364510860|Mekar sicalung rt 02/13
+|5|Dedi|6283872300075|Mekar sicalung 01/13
+|6|Pipit|6289605234129|Mekar sicalung 02/13
+|7|Nurwanto|628999844839|Mekar sicalung 02/13
+|8|Karsih|62895321740245|Mekar Sicalung 02/13
+|9|Bu Aam|6282130223824|Mekar sicalung 02/13
+|11|Nur Fadillah|6282321307166|Mekar sicalung RT 02 RW 13
+|12|Aldi|6281394815635|Mekar sicalung RT 02 RW 13
+|13|Maudi|6282114058411|Mekar sicalung RT 02 RW 13
+|14|Teguh|6281316630973|Mekar sicalung RT 02 RW 13
+|15|Dartam|6285224310008|Mekar sicalung RT 02 RW 13
+|16|Zian|6285900019575|Mekar sicalung RT 02 RW 13
+|17|Saprudin|628987674990|Mekar sicalung RT 02 RW 13
+|18|Afip|6285797314103|Mekar sicalung RT 02 RW 13
+|19|Ayu Nurhidayah|62895364509844|Mekar sicalung RT 02 RW 13
+|20|Dudi|6285295922288|Mekar sicalung RT 02 RW 13
+|21|Nindi|6289531945101|Mekar sicalung RT 02 RW 13
+|22|Indah (Bpk Ali) |6285724313933|Mekar sicalung RT 02 RW 13
+|23|Lilis|62895700425005|Mekar sicalung RT 02 RW 13
+|24|Rama|6287729729776|Mekar sicalung RT 02 RW 13
+|25|Zahra|62895364542486|Mekar sicalung RT 02 RW 13
+|26|Kevin|6282120335186|Mekar sicalung RT 02 RW 13
