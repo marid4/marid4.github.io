@@ -3,120 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AwraNet</title>
+    <title>AwraNet - Neon Fiber</title>
     <style>
-        /* --- CSS Reset & Dasar --- */
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --bg-color: #050505;
+            --neon-blue: #00f3ff;
+            --neon-pink: #bc13fe;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f9f9f9; }
-        a { text-decoration: none; }
-        ul { list-style: none; }
-        input, select, textarea, button { font-family: inherit; }
+        
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            overflow-x: hidden;
+            padding-bottom: 100px; /* Ruang untuk navbar bawah */
+        }
+
+        /* --- Canvas Background --- */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+        }
 
         /* --- Utilitas --- */
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        .text-center { text-align: center; }
-        .btn { display: inline-block; background-color: #007bff; color: white; padding: 10px 25px; border-radius: 5px; font-weight: bold; transition: background 0.3s; cursor: pointer; border: none; }
-        .btn:hover { background-color: #0056b3; }
-        .section-title { margin-bottom: 40px; font-size: 2rem; color: #2c3e50; text-align: center; }
-
-        /* --- Header --- */
-        header { background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: #007bff; }
-        .nav-links li { display: inline; margin-left: 20px; }
-        .nav-links a { color: #555; font-weight: 500; }
-        .nav-links a:hover { color: #007bff; }
-
-        /* --- Hero --- */
-        .hero { background: linear-gradient(135deg, #007bff 0%, #00d2ff 100%); color: white; padding: 80px 0; text-align: center; }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 15px; }
-        .hero p { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
-        .hero .btn { background: #fff; color: #007bff; }
-
-        /* --- Pricing --- */
-        .pricing { padding: 60px 0; }
-        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-top: 5px solid #007bff; transition: transform 0.3s; }
-        .card:hover { transform: translateY(-5px); }
-        .price { font-size: 2rem; color: #007bff; font-weight: bold; margin: 15px 0; }
-        .price span { font-size: 1rem; color: #777; font-weight: normal; }
-        .features li { margin-bottom: 10px; color: #555; }
-
-        /* --- Form Pendaftaran --- */
-        .registration { background: #fff; padding: 60px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-        .form-box { max-width: 600px; margin: 0 auto; background: #f4f7f6; padding: 30px; border-radius: 10px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #007bff; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
         
-        /* --- Footer --- */
-        footer { background: #333; color: white; padding: 40px 0; text-align: center; }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
 
-        /* --- Mobile --- */
+        .btn {
+            display: inline-block;
+            background: transparent;
+            color: var(--neon-blue);
+            padding: 12px 30px;
+            border: 2px solid var(--neon-blue);
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+            width: 100%; /* Mobile friendly button width */
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        /* --- Header / Hero --- */
+        .hero {
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 5px rgba(188, 19, 254, 0.5));
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #ccc;
+            max-width: 600px;
+        }
+
+        /* --- Pricing Cards (Glassmorphism) --- */
+        .pricing { padding: 60px 0; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.2);
+        }
+
+        .card h3 { color: var(--neon-blue); font-size: 1.5rem; margin-bottom: 10px; }
+        
+        .price { 
+            font-size: 2.5rem; 
+            color: #fff; 
+            font-weight: bold; 
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        .price span { font-size: 1rem; color: #aaa; font-weight: normal; }
+        
+        .features li { margin-bottom: 15px; color: #ddd; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
+
+        /* --- Registration Form --- */
+        .registration { padding: 60px 0; }
+        .form-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--neon-blue); font-weight: 500; }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 10px rgba(188, 19, 254, 0.3);
+        }
+
+        /* --- Bottom Navbar (Floating) --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 10px 30px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .nav-links { display: flex; gap: 30px; margin: 0; padding: 0; }
+        .nav-links li { display: inline; }
+        
+        .nav-links a { 
+            color: #fff; 
+            font-weight: 500; 
+            font-size: 0.9rem; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            opacity: 1;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* --- Mobile Responsive Tweaks --- */
         @media (max-width: 768px) {
-            nav { flex-direction: column; height: auto; padding: 15px 0; }
-            .nav-links { margin-top: 15px; text-align: center; }
-            .nav-links li { display: block; margin: 10px 0; }
+            .hero h1 { font-size: 2.5rem; }
+            .section-title { font-size: 1.8rem; }
+            .bottom-nav { bottom: 15px; padding: 12px 20px; width: 95%; }
+            .nav-links { gap: 20px; }
         }
     </style>
 </head>
 <body>
-
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">AWRANET</div>
-                <ul class="nav-links">
-                    <li><a href="#paket">Paket</a></li>
-                    <li><a href="#daftar">Daftar Sekarang</a></li>
-                    <li><a href="#kontak">Kontak</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
+	
+    <canvas id="particle-canvas"></canvas>
+	
     <section class="hero">
         <div class="container">
-            <h1>Internet Unlimited 24 Jam</h1>
-            <p>Pasang WiFi hari ini, aktif besok. Tanpa kuota, tanpa ribet.</p>
-            <a href="#paket" class="btn">Lihat Pilihan Paket</a>
+        	
+            <div style="font-size: 1.5rem; color: var(--neon-blue); letter-spacing: 5px; margin-bottom: 10px;">AWRANET</div>
+            <h1>UNLIMITED<br>INTERNET</h1>
+            <p>Internet  Tanpa Batas Kuota. Koneksi stabil siang dan malam dengan teknologi terbaru.</p>
+            <a href="#paket" class="btn" style="width: auto; padding: 15px 40px;">Mulai Sekarang</a>
         </div>
     </section>
 
     <section id="paket" class="pricing">
         <div class="container">
-            <h2 class="section-title">Pilihan Paket Internet</h2>
+            <h2 class="section-title">Pilih Kecepatan</h2>
             <div class="pricing-grid">
                 <div class="card">
-                    <h3>Paket Hemat</h3>
-                    <div class="price">Rp 50.000<span>/bln</span></div>
+                    <h3>LITE STREAM</h3>
+                    <div class="price">50K<span>/bln</span></div>
                     <ul class="features">
-                        <li>Up to 5 Mbps</li>
+                        <li>Speed Up to 5 Mbps</li>
                         <li>Unlimited Kuota</li>
-                        <li>1-3 Device</li>
+                        <li>Ideal untuk 1-3 HP</li>
                     </ul>
-                    <a href="#daftar" class="btn" onclick="pilihPaket('Paket Hemat')">Pilih Ini</a>
+                    <button class="btn" onclick="pilihPaket('Paket Hemat')">Pilih Paket</button>
+                </div>
+                <div class="card" style="border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);">
+                    <h3>FAMILY NET</h3>
+                    <div class="price">80K<span>/bln</span></div>
+                    <ul class="features">
+                        <li>Speed Up to 8 Mbps</li>
+                        <li>Unlimited Kuota</li>
+                        <li>Ideal untuk 4-7 HP</li>
+                    </ul>
+                    <button class="btn" style="background: var(--neon-blue); color: #000;" onclick="pilihPaket('Paket Keluarga')">Pilih Paket</button>
                 </div>
                 <div class="card">
-                    <h3>Paket Keluarga</h3>
-                    <div class="price">Rp 80.000<span>/bln</span></div>
+                    <h3>PRO GAMER</h3>
+                    <div class="price">100K<span>/bln</span></div>
                     <ul class="features">
-                        <li>Up to 8 Mbps</li>
-                        <li>Unlimited Kuota</li>
-                        <li>4-7 Device</li>
+                        <li>Speed Up to 15 Mbps</li>
+                        <li>Low Latency / Ping Kecil</li>
+                        <li>Heavy User Support</li>
                     </ul>
-                    <a href="#daftar" class="btn" onclick="pilihPaket('Paket Keluarga')">Pilih Ini</a>
-                </div>
-                <div class="card">
-                    <h3>Paket Streaming</h3>
-                    <div class="price">Rp 100.000<span>/bln</span></div>
-                    <ul class="features">
-                        <li>Up to 15 Mbps</li>
-                        <li>Low Latency</li>
-                        <li>Heavy User</li>
-                    </ul>
-                    <a href="#daftar" class="btn" onclick="pilihPaket('Paket Gamer')">Pilih Ini</a>
+                    <button class="btn" onclick="pilihPaket('Paket Gamer')">Pilih Paket</button>
                 </div>
             </div>
         </div>
@@ -124,34 +278,34 @@
 
     <section id="daftar" class="registration">
         <div class="container">
-            <h2 class="section-title">Formulir Pendaftaran</h2>
+            <h2 class="section-title">Formulir Digital</h2>
             <div class="form-box">
                 <form id="wifiForm" onsubmit="kirimKeWA(event)">
                     <div class="form-group">
                         <label>Nama Lengkap</label>
-                        <input type="text" id="nama" required placeholder="Contoh: Budi Santoso">
+                        <input type="text" id="nama" required placeholder="Nama Anda...">
                     </div>
                     <div class="form-group">
-                        <label>Nomor WhatsApp</label>
-                        <input type="tel" id="nomor" required placeholder="Contoh: 08123456789">
+                        <label>WhatsApp</label>
+                        <input type="tel" id="nomor" required placeholder="08xxxxxxx">
                     </div>
                     <div class="form-group">
-                        <label>Pilihan Paket</label>
+                        <label>Pilih Paket</label>
                         <select id="paketSelect">
-                            <option value="Paket Hemat">Paket Hemat (3 Mbps)</option>
-                            <option value="Paket Keluarga">Paket Keluarga (5 Mbps)</option>
-                            <option value="Paket Gamer">Paket Gamer (10 Mbps)</option>
+                            <option value="Paket Hemat">LITE STREAM (Upto 5 Mbps)</option>
+                            <option value="Paket Keluarga">FAMILY NET (Up to8 Mbps)</option>
+                            <option value="Paket Gamer">PRO GAMER (Up to 15 Mbps)</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Alamat Pemasangan Lengkap</label>
-                        <textarea id="alamat" rows="3" required placeholder="Nama Jalan, RT/RW, Nomor Rumah, Kelurahan..."></textarea>
+                        <label>Alamat Pemasangan</label>
+                        <textarea id="alamat" rows="3" required placeholder="Jalan, RT/RW, Desa..."></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Jadwal Survei/Pasang (Opsional)</label>
+                        <label>Tanggal Pasang</label>
                         <input type="date" id="tanggal">
                     </div>
-                    <button type="submit" class="btn" style="width: 100%;">Kirim Pendaftaran via WhatsApp</button>
+                    <button type="submit" class="btn">Kirim via WhatsApp</button>
                 </form>
             </div>
         </div>
@@ -159,46 +313,122 @@
 
     <footer id="kontak">
         <div class="container">
-            <p>AWRANET &copy; 2026</p>
-            <p>Butuh bantuan? WA: 0851-8311-3336</p>
+            <p>AwraNet &copy; 2026<br>Connecting the Future.</p>
         </div>
     </footer>
 
+    <nav class="bottom-nav">
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#paket">Paket</a></li>
+            <li><a href="#daftar">Daftar</a></li>
+            <li><a href="#kontak">Kontak</a></li>
+        </ul>
+    </nav>
+
     <script>
-        // Fungsi untuk auto-select paket saat tombol di tabel harga diklik
+        // --- Logic Pilih Paket ---
         function pilihPaket(namaPaket) {
             document.getElementById('paketSelect').value = namaPaket;
+            document.getElementById('daftar').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Fungsi mengirim data form ke WhatsApp
+        // --- Logic Kirim WA ---
         function kirimKeWA(e) {
-            e.preventDefault(); // Mencegah reload halaman
-
-            // 1. GANTI NOMOR WA DISINI (Format 628...)
+            e.preventDefault();
             const nomorAdmin = "6285183113336"; 
-
-            // 2. Ambil data dari form
             const nama = document.getElementById('nama').value;
             const nomor = document.getElementById('nomor').value;
             const paket = document.getElementById('paketSelect').value;
             const alamat = document.getElementById('alamat').value;
             const tanggal = document.getElementById('tanggal').value;
 
-            // 3. Buat template pesan
-            const pesan = `Halo Admin, saya ingin daftar pasang WiFi.%0A%0A` +
-                          `DATA DIRI:%0A` +
-                          `- Nama: ${nama}%0A` +
-                          `- No HP: ${nomor}%0A` +
-                          `- Paket: ${paket}%0A` +
-                          `- Alamat: ${alamat}%0A` +
-                          `- Rencana Tanggal: ${tanggal}%0A%0A` +
-                          `Mohon info ketersediaan jaringan. Terima kasih.`;
+            const pesan = `Halo Admin AwraNet,%0A%0A` +
+                          `Saya mau pasang internet:%0A` +
+                          `👤 Nama: ${nama}%0A` +
+                          `📱 WA: ${nomor}%0A` +
+                          `🚀 Paket: ${paket}%0A` +
+                          `🏠 Alamat: ${alamat}%0A` +
+                          `📅 Tanggal: ${tanggal}%0A%0A` +
+                          `Mohon diproses segera. Terima kasih!`;
 
-            // 4. Buka WhatsApp
             const url = `https://wa.me/${nomorAdmin}?text=${pesan}`;
             window.open(url, '_blank');
         }
-    </script>
 
+        // --- Particle Animation Script ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray;
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+
+        // Particle Class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1; // Ukuran partikel
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.color = Math.random() > 0.5 ? '#00f3ff' : '#bc13fe'; // Cyan atau Pink
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 15000; // Kepadatan partikel
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                
+                // Draw lines connecting particles
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(100, 100, 255, ${1 - distance/150})`; // Garis pudar
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
 </body>
 </html>
