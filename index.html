@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AwraNet - Neon Fiber</title>
+    <title>AwraNet</title>
     <!-- FontAwesome untuk Ikon Pembayaran -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -336,9 +336,9 @@
                     <div class="form-group">
                         <label>Pilih Paket</label>
                         <select id="paketSelect">
-                            <option value="Paket Hemat">LITE STREAM (Upto 5 Mbps)</option>
-                            <option value="Paket Keluarga">FAMILY NET (Up to 8 Mbps)</option>
-                            <option value="Paket Gamer">PRO GAMER (Up to 15 Mbps)</option>
+                            <option value="Paket Hemat 50k">LITE STREAM (Upto 5 Mbps)</option>
+                            <option value="Paket Keluarga 80k">FAMILY NET (Up to 8 Mbps)</option>
+                            <option value="Paket Gamer 100k">PRO GAMER (Up to 15 Mbps)</option>
                         </select>
                     </div>
                     
@@ -429,12 +429,12 @@
 
             const pesan = `Halo Admin AwraNet,%0A%0A` +
                           `Saya mau pasang internet:%0A` +
-                          `側 Nama: ${nama}%0A` +
-                          `導 WA: ${nomor}%0A` +
-                          `噫 Paket: ${paket}%0A` +
-                          `担 Pembayaran: ${metode}%0A` + // Tambahkan ke pesan
-                          `匠 Alamat: ${alamat}%0A` +
-                          `套 Tanggal: ${tanggal}%0A%0A` +
+                          `👤 Nama: ${nama}%0A` +
+                          `📱 WA: ${nomor}%0A` +
+                          `📦 Paket: ${paket}%0A` +
+                          `💴 Pembayaran: ${metode}%0A` + // Tambahkan ke pesan
+                          `📍 Alamat: ${alamat}%0A` +
+                          `🗓 Tanggal: ${tanggal}%0A%0A` +
                           `Mohon diproses segera. Terima kasih!`;
 
             const url = `https://wa.me/${nomorAdmin}?text=${pesan}`;
